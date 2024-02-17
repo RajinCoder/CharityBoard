@@ -8,7 +8,7 @@ interface Props {
 }
 export const Listing = ({ orgName, orgNumber, orgLoc, orgNeeds }: Props) => {
   return (
-    <div className="flex flex-col rounded-lg bg-white border-blue-700 border-2 max-w-sm">
+    <div className="flex flex-col rounded-lg bg-white border-blue-700 border-2 max-w-sm mt-28">
       <div className="flex flex-col justify-start p-4">
         <h4 className="mb-2 text-xl font-medium self-center text-black">
           {orgName}

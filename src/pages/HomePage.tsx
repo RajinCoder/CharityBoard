@@ -1,6 +1,5 @@
 import { Listing } from "../components/Listing";
-import React from "react";
-import Navbar from '../components/nav-bar'; // Import the Navbar component using relative path
+import Navbar from "../components/nav-bar"; // Import the Navbar component using relative path
 
 const HomePage = () => {
   return (
