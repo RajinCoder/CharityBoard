@@ -1,9 +1,14 @@
-import React from "react";
+import { Listing } from "../components/Listing";
 
 const HomePage = () => {
   return (
-    <div>
-      <h1>Sunay Patel</h1>
+    <div className="h-100 p-10">
+      <Listing
+        orgName={"Merrimack Highschool"}
+        orgNumber={"+1 (603) 493-6842"}
+        orgLoc={"38 McElwain St, Merrimack, NH 03054"}
+        orgNeeds={["Curry", "Draws", "Curry", "Draws", "Curry", "Draws"]}
+      />
     </div>
   );
 };
