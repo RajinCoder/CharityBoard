@@ -1,9 +1,10 @@
 import React from "react";
+import Navbar from '../components/nav-bar'; // Import the Navbar component using relative path
 
 const HomePage = () => {
   return (
     <div>
-      <h1>Sunay Patel</h1>
+      <Navbar />
     </div>
   );
 };
