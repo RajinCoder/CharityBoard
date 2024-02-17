@@ -6,13 +6,13 @@ import SignUp from "./pages/SignUpPage";
 
 function App() {
   return (
-    <>
+    <div className="h-100">
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>
-    </>
+    </div>
   );
 }
 
