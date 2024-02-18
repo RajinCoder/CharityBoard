@@ -1,14 +1,14 @@
 import React from "react";
 
 interface Props {
-  orgID: string;
+  uuid: string;
   orgName: string;
   email: string;
   address: string;
 }
 
 export const OrganizationListing = ({
-  orgID,
+  uuid,
   orgName,
   email,
   address,
@@ -20,9 +20,6 @@ export const OrganizationListing = ({
           {orgName}
         </h4>
         <div className="mb-2 text-black flex">
-          <p className="font-medium pr-2">OrgID:</p> <p>{orgID}</p>
-        </div>
-        <div className="mb-2 text-black flex">
           <p className="font-medium pr-2">Email:</p> <p>{email}</p>
         </div>
         <div className="mb-6 text-black">
@@ -30,7 +27,7 @@ export const OrganizationListing = ({
         </div>
         <button
           onClick={() => {
-            window.location.href = `/organization/${orgID}`;
+            window.location.href = `/organization/${uuid}`;
           }}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
