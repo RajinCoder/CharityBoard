@@ -12,6 +12,7 @@ interface Listing {
   contact: string;
   saved: boolean;
   tags: { needs: string[] };
+  user_id: string;
 }
 const FavoritesPage = () => {
   const [listings, setListings] = useState<Listing[]>([]);
@@ -42,6 +43,7 @@ const FavoritesPage = () => {
           orgNeeds={listing.tags.needs}
           time={listing.created_at}
           uid={listing.listingId}
+          user_id={listing.user_id}
         />
       ))}
     </div>
