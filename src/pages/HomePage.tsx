@@ -14,6 +14,7 @@ interface Listing {
   address: string;
   contact: string;
   saved: boolean;
+  user_id: string;
   tags: { needs: string[] };
   user_id: string;
 }
@@ -30,6 +31,7 @@ const HomePage = () => {
         console.log(data);
       }
     };
+
     getListing();
   }, []);
   return (
@@ -42,13 +44,13 @@ const HomePage = () => {
           {listings.map((listing, index) => (
             <Listing
               key={index}
-              orgName={listing.name}
-              orgNumber={listing.contact}
-              orgLoc={listing.address}
-              orgNeeds={listing.tags.needs}
-              time={listing.created_at}
-              uid={listing.listingId}
-              user_id={listing.user_id}
+            orgName={listing.name}
+            orgNumber={listing.contact}
+            orgLoc={listing.address}
+            orgNeeds={listing.tags.needs}
+            time={listing.created_at}
+            user_id={listing.user_id}
+            listingId={listing.listingId}
             />
           ))}
         </div>

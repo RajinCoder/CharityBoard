@@ -11,6 +11,7 @@ interface Listing {
   address: string;
   contact: string;
   saved: boolean;
+  user_id: string;
   tags: { needs: string[] };
   user_id: string;
 }
@@ -18,14 +19,31 @@ const FavoritesPage = () => {
   const [listings, setListings] = useState<Listing[]>([]);
   useEffect(() => {
     const getListing = async () => {
-      const { data, error } = await supabase.from("ListingTable").select();
+      const { data: Listing, error } = await supabase
+        .from("savedtable")
+        .select("list_of_listings")
+        .eq(
+          "user_id",
+          listings.filter((val) => val.user_id)
+        )
+        .single();
       if (error) {
         console.log(error);
       }
-      if (data) {
-        const savedListings = data.filter((listing) => listing.saved);
-        setListings(savedListings);
-        console.log(savedListings);
+      if (Listing) {
+        Listing.list_of_listings.array.forEach(async (value: number) => {
+          const { data, error } = await supabase
+            .from("ListingTable")
+            .select("*")
+            .eq("listingId", value);
+          if (error) {
+            console.log(error);
+          }
+          if (data) {
+            setListings(data);
+            console.log(data);
+          }
+        });
       }
     };
     getListing();
@@ -42,7 +60,7 @@ const FavoritesPage = () => {
           orgLoc={listing.address}
           orgNeeds={listing.tags.needs}
           time={listing.created_at}
-          uid={listing.listingId}
+          listingId={listing.listingId}
           user_id={listing.user_id}
         />
       ))}
