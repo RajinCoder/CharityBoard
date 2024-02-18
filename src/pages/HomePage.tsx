@@ -4,6 +4,9 @@ import Navbar from "../components/nav-bar"; // Import the Navbar component using
 import { useEffect } from "react";
 import { supabase } from "../config/supabaseClient";
 import { Filters } from "../components/Filters";
+import AddBtn from "../components/AddBtn";
+
+
 interface Listing {
   listingId: number;
   created_at: string;
@@ -29,6 +32,7 @@ const HomePage = () => {
     getListing();
   }, []);
   return (
+    <>
     <div className="px-10 py-20">
       <Navbar />
       <Filters></Filters>
@@ -46,6 +50,8 @@ const HomePage = () => {
         ))}
       </div>
     </div>
+    <AddBtn />
+    </>
   );
 };
 export default HomePage;
