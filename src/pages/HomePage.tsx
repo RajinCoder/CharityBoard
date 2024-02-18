@@ -29,20 +29,22 @@ const HomePage = () => {
     getListing();
   }, []);
   return (
-    <div className="h-100 p-10">
+    <div className="px-10 py-20">
       <Navbar />
       <Filters></Filters>
-      {listings.map((listing, index) => (
-        <Listing
-          key={index}
-          orgName={listing.name}
-          orgNumber={listing.contact}
-          orgLoc={listing.address}
-          orgNeeds={listing.tags.needs}
-          time={listing.created_at}
-          uid={listing.listingId}
-        />
-      ))}
+      <div className="grid grid-cols-4 gap-8">
+        {listings.map((listing, index) => (
+          <Listing
+            key={index}
+            orgName={listing.name}
+            orgNumber={listing.contact}
+            orgLoc={listing.address}
+            orgNeeds={listing.tags.needs}
+            time={listing.created_at}
+            uid={listing.listingId}
+          />
+        ))}
+      </div>
     </div>
   );
 };

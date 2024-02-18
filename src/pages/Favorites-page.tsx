@@ -22,7 +22,7 @@ const FavoritesPage = () => {
         console.log(error);
       }
       if (data) {
-        const savedListings = data.filter(listing => listing.saved);
+        const savedListings = data.filter((listing) => listing.saved);
         setListings(savedListings);
         console.log(savedListings);
       }
@@ -30,7 +30,7 @@ const FavoritesPage = () => {
     getListing();
   }, []);
   return (
-    <div className="h-100 p-10">
+    <div className="px-10 py-20">
       <Navbar />
       <Filters></Filters>
       {listings.map((listing, index) => (
@@ -48,6 +48,4 @@ const FavoritesPage = () => {
   );
 };
 
-export default FavoritesPage
-
-
+export default FavoritesPage;

@@ -30,7 +30,7 @@ const FollowingPage = () => {
   return (
     <>
       <Navbar />
-      <div className="pt-20 px-4">
+      <div className="px-10 py-28">
         <h1 className="text-4xl font-bold mb-8">Following</h1>
         <div className="mt-16">
           {organizations.map((organization) => (
