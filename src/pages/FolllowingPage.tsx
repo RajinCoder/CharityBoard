@@ -4,7 +4,7 @@ import Navbar from "../components/nav-bar";
 import { OrganizationListing } from "../components/Organization";
 
 interface OrganizationProps {
-  orgID: string;
+  org_uuid: string;
   orgName: string;
   email: string;
   address: string;
@@ -35,8 +35,8 @@ const FollowingPage = () => {
         <div className="grid grid-cols-4 gap-8">
           {organizations.map((organization) => (
             <OrganizationListing
-              key={organization.orgID}
-              orgID={organization.orgID}
+              key={organization.org_uuid}
+              uuid={organization.org_uuid}
               orgName={organization.orgName}
               email={organization.email}
               address={organization.address}
