@@ -23,6 +23,7 @@ const OrgLoginPage: React.FC = () => {
     console.log('Form data submitted:', formData);
   };
 
+  
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <form onSubmit={handleSubmit} className="w-full max-w-sm p-8 space-y-6 bg-white rounded shadow-md">
