@@ -7,7 +7,7 @@ interface LoginFormData {
   password: string;
 }
 
-const LoginPage: React.FC = () => {
+const UserLoginPage: React.FC = () => {
   const [formData, setFormData] = useState<LoginFormData>({ email: '', password: '' });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +58,7 @@ const LoginPage: React.FC = () => {
         </button>
         <div className="mt-4">
           <p className="text-center mb-4">Don't have an account?</p>
-          <Link to="/signup" className="w-full px-4 py-2 text-sm font-medium text-center text-white bg-blue-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+          <Link to="/user-signup" className="w-full px-4 py-2 text-sm font-medium text-center text-white bg-blue-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
           Sign Up!
           </Link>
         </div>
@@ -67,4 +67,4 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+export default UserLoginPage;
