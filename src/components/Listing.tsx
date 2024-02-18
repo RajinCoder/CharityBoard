@@ -9,6 +9,7 @@ interface Props {
   orgNeeds: string[];
   time: string;
   uid: number;
+  user_id: string;
 }
 
 export const Listing = ({
@@ -18,12 +19,13 @@ export const Listing = ({
   orgNeeds,
   time,
   uid,
+  user_id,
 }: Props) => {
   return (
     <div className="flex flex-col rounded-lg bg-white border-blue-700 border-2 max-w-sm mt-18">
       <div className="flex flex-col justify-start p-4">
         <h4 className="mb-2 text-xl flex flex-row justify-between font-medium  text-black">
-          <Link to={`/organization/${uid}`} className="hover:underline">
+          <Link to={`/organization/${user_id}`} className="hover:underline">
             {orgName}
             </Link>
             <SaveBtn uid={uid} />

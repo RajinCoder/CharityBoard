@@ -15,6 +15,7 @@ interface Listing {
   contact: string;
   saved: boolean;
   tags: { needs: string[] };
+  user_id: string;
 }
 const HomePage = () => {
   const [listings, setListings] = useState<Listing[]>([]);
@@ -46,6 +47,7 @@ const HomePage = () => {
             orgNeeds={listing.tags.needs}
             time={listing.created_at}
             uid={listing.listingId}
+            user_id={listing.user_id}
           />
         ))}
       </div>
