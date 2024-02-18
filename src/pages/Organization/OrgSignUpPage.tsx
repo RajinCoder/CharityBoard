@@ -192,12 +192,11 @@ const OrgSignUpPage: React.FC = () => {
       {showEmailValidationAlert && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-8 rounded shadow-md">
-            <p className="text-lg font-semibold mb-4">Please validate your email!</p>
+            <p className="text-lg font-semibold mb-4">Please validate your email! Then click sign up again.</p>
             <button
             className="bg-blue-500 text-white px-4 py-2 rounded-md"
             onClick={() => {
             setShowEmailValidationAlert(false);
-            navigate("/organization-login");
               }}
             >
               OK

@@ -2,7 +2,6 @@ import React, { useState, FormEvent } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/nav-bar-login";
 import { supabase } from "../../config/supabaseClient";
-import { useNavigate } from "react-router-dom";
 
 interface SignUpFormData {
   email: string;
@@ -10,7 +9,6 @@ interface SignUpFormData {
 }
 
 const UserSignUpPage: React.FC = () => {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState<SignUpFormData>({
     email: "",
     password: "",
@@ -112,13 +110,12 @@ const UserSignUpPage: React.FC = () => {
       {showVerificationPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-8 rounded shadow-md">
-            <p className="text-lg font-semibold mb-4">Please verify your email!</p>
+            <p className="text-lg font-semibold mb-4">Please verify your email! Then click sign up again.</p>
             <button
               className="bg-blue-500 text-white px-4 py-2 rounded-md"
               onClick={
                 () => {
                   setShowVerificationPopup(false)
-                  navigate("/user-login");
                 }
               }
             >
