@@ -69,7 +69,9 @@ const Navbar = () => {
   return (
     <nav className="bg-blue-700 px-4 py-1 flex items-center justify-between fixed top-0 left-0 w-full h-[10%]">
       {/* CharityConnect Text */}
-      <span className="text-white font-bold text-2xl">CharityConnect</span>
+      <Link to="/" className="text-white font-bold text-2xl">
+        CharityConnect
+      </Link>
 
       {/* Search Bar */}
       <div className="flex items-center border-2 border-blue-500 bg-white rounded-md ml-4 flex-grow">
@@ -128,12 +130,12 @@ const Navbar = () => {
 
       {/* Action Buttons */}
       <div>
-        <button className="text-white mx-2 ring-1 ring-white rounded-md px-3 py-1 hover:bg-white hover:text-blue-500 transition-colors">
+        <Link to="/favorites" className="text-white mx-2 ring-1 ring-white rounded-md px-3 py-1 hover:bg-white hover:text-blue-500 transition-colors">
           Favorites
-        </button>
-        <button className="text-white mx-2 ring-1 ring-white rounded-md px-3 py-1 hover:bg-white hover:text-blue-500 transition-colors">
+        </Link>
+        <Link to="/following" className="text-white mx-2 ring-1 ring-white rounded-md px-3 py-1 hover:bg-white hover:text-blue-500 transition-colors">
           Following
-        </button>
+        </Link>
         {!loggedIn ? (
           <Link
             to="/user-or-org"

@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { Listing } from "../components/Listing";
-import Navbar from "../components/nav-bar"; // Import the Navbar component using relative path
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "../config/supabaseClient";
 import { Filters } from "../components/Filters";
+import { Listing } from "../components/Listing";
+import Navbar from "../components/nav-bar";
+
 interface Listing {
   listingId: number;
   created_at: string;
@@ -13,7 +13,7 @@ interface Listing {
   saved: boolean;
   tags: { needs: string[] };
 }
-const HomePage = () => {
+const FavoritesPage = () => {
   const [listings, setListings] = useState<Listing[]>([]);
   useEffect(() => {
     const getListing = async () => {
@@ -22,8 +22,9 @@ const HomePage = () => {
         console.log(error);
       }
       if (data) {
-        setListings(data);
-        console.log(data);
+        const savedListings = data.filter(listing => listing.saved);
+        setListings(savedListings);
+        console.log(savedListings);
       }
     };
     getListing();
@@ -46,4 +47,7 @@ const HomePage = () => {
     </div>
   );
 };
-export default HomePage;
+
+export default FavoritesPage
+
+
