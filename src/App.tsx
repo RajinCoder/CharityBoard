@@ -8,6 +8,7 @@ import OrgLoginPage from "./pages/Organization/OrgLoginPage";
 import OrgSignUpPage from './pages/Organization/OrgSignUpPage';
 import FavoritesPage from './pages/Favorites-page.tsx'
 import FollowingPage from "./pages/FolllowingPage";
+import OrganizationDetailsPage from "./pages/Organization/OrganizationDetailsPage.tsx";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/user-or-org" element={<UserOrg />} />
         <Route path="/favorites" element={<FavoritesPage />} />
         <Route path="/following" element={<FollowingPage />} />
+        <Route path="/organization/:uid" element={<OrganizationDetailsPage />} />
       </Routes>
     </div>
   );
