@@ -2,6 +2,7 @@ import React, { useState, FormEvent } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/nav-bar-login";
 import { supabase } from "../../config/supabaseClient";
+import { useNavigate } from "react-router-dom";
 
 interface LoginFormData {
   email: string;
@@ -12,6 +13,7 @@ interface LoginFormData {
   Needs to display if there is an error signing up, needs to clear the form after any sign up
 */
 const UserSignUpPage: React.FC = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     password: "",
@@ -27,11 +29,11 @@ const UserSignUpPage: React.FC = () => {
     e.preventDefault();
     const { data, error } = await supabase.auth.signUp(formData);
     if (error) {
-      console.log(error);
+      console.error("Error signing up: ", error);
     }
 
     if (data) {
-      console.log(data);
+      navigate("/");
     }
     console.log("Form data submitted:", formData);
   };

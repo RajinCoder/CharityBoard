@@ -1,6 +1,8 @@
-import React, { useState, FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, FormEvent } from "react";
+import { Link } from "react-router-dom";
 import Navbar from "../../components/nav-bar-login";
+import { supabase } from "../../config/supabaseClient";
+import { useNavigate } from "react-router-dom";
 
 interface SignUpFormData {
   email: string;
@@ -11,26 +13,60 @@ interface SignUpFormData {
 }
 
 const OrgSignUpPage: React.FC = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState<SignUpFormData>({
-    email: '',
-    password: '',
-    organizationName: '',
-    address: '',
-    phoneNumber: ''
+    email: "",
+    password: "",
+    organizationName: "",
+    address: "",
+    phoneNumber: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log('Form data submitted:', formData);
-    // You can add additional logic here to handle form submission
+    const { data, error } = await supabase.auth.signUp({
+      email: formData.email,
+      password: formData.password,
+    });
+
+    if (error) {
+      console.error("Error with sign in information: ", error);
+    }
+
+    if (data) {
+      updateOrg(formData);
+    }
+    console.log("Form data submitted:", formData);
+  };
+
+  const updateOrg = async (data: SignUpFormData) => {
+    const { data: insertedData, error } = await supabase
+      .from("OrganizationTable")
+      .insert({
+        email: data.email,
+        password: data.password,
+        address: data.address,
+        contact: data.phoneNumber,
+        orgName: data.organizationName,
+      });
+
+    if (error) {
+      console.log("error updating");
+    }
+
+    if (insertedData) {
+      console.log("inserted data");
+      navigate("/");
+    }
   };
 
   return (
@@ -38,13 +74,21 @@ const OrgSignUpPage: React.FC = () => {
       <Navbar />
       <div className="flex items-center justify-center py-16">
         {/* Add padding top to create space */}
-        <form onSubmit={handleSubmit} className="w-full px-8 py-8 bg-white rounded shadow-md">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full px-8 py-8 bg-white rounded shadow-md"
+        >
           <div>
-            <h1 className="text-2xl font-bold text-center">Sign Up for New Organization</h1>
+            <h1 className="text-2xl font-bold text-center">
+              Sign Up for New Organization
+            </h1>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Organization Email:
               </label>
               <input
@@ -58,7 +102,10 @@ const OrgSignUpPage: React.FC = () => {
               />
             </div>
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Password:
               </label>
               <input
@@ -72,7 +119,10 @@ const OrgSignUpPage: React.FC = () => {
               />
             </div>
             <div>
-              <label htmlFor="organizationName" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="organizationName"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Organization Name:
               </label>
               <input
@@ -86,7 +136,10 @@ const OrgSignUpPage: React.FC = () => {
               />
             </div>
             <div>
-              <label htmlFor="address" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="address"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Address:
               </label>
               <input
@@ -100,7 +153,10 @@ const OrgSignUpPage: React.FC = () => {
               />
             </div>
             <div>
-              <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="phoneNumber"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Phone Number:
               </label>
               <input
