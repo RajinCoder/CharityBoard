@@ -43,29 +43,54 @@ const OrgSignUpPage: React.FC = () => {
     }
 
     if (data) {
+      // this needs to check if it works first and make it so that we get rid of that email link thing
       updateOrg(formData);
     }
     console.log("Form data submitted:", formData);
   };
 
   const updateOrg = async (data: SignUpFormData) => {
-    const { data: insertedData, error } = await supabase
-      .from("OrganizationTable")
-      .insert({
-        email: data.email,
-        password: data.password,
-        address: data.address,
-        contact: data.phoneNumber,
-        orgName: data.organizationName,
+    const { data: loginData, error: loginError } =
+      await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
       });
 
-    if (error) {
-      console.log("error updating");
+    if (loginError) {
+      console.error("Not correct login info", loginError);
+      return;
     }
 
-    if (insertedData) {
-      console.log("inserted data");
-      navigate("/");
+    if (loginData) {
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.getUser();
+
+      if (error) {
+        console.log("Something wrong with getting info");
+      }
+      if (user) {
+        const { data: insertedData, error } = await supabase
+          .from("OrganizationTable")
+          .insert({
+            email: data.email,
+            password: data.password,
+            address: data.address,
+            contact: data.phoneNumber,
+            orgName: data.organizationName,
+            org_uuid: user.id,
+          });
+
+        if (error) {
+          console.log("error updating", error);
+        }
+
+        if (insertedData) {
+          console.log("inserted data");
+          navigate("/");
+        }
+      }
     }
   };
 

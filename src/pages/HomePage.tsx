@@ -4,6 +4,7 @@ import Navbar from "../components/nav-bar"; // Import the Navbar component using
 import { useEffect } from "react";
 import { supabase } from "../config/supabaseClient";
 import { Filters } from "../components/Filters";
+
 interface Listing {
   listingId: number;
   created_at: string;
@@ -11,6 +12,7 @@ interface Listing {
   address: string;
   contact: string;
   saved: boolean;
+  user_id: string;
   tags: { needs: string[] };
 }
 const HomePage = () => {
@@ -26,6 +28,7 @@ const HomePage = () => {
         console.log(data);
       }
     };
+
     getListing();
   }, []);
   return (
@@ -41,7 +44,8 @@ const HomePage = () => {
             orgLoc={listing.address}
             orgNeeds={listing.tags.needs}
             time={listing.created_at}
-            uid={listing.listingId}
+            user_id={listing.user_id}
+            listingId={listing.listingId}
           />
         ))}
       </div>
