@@ -2,71 +2,135 @@ import React, { useState, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from "../../components/nav-bar-login";
 
-
-
-interface LoginFormData {
+interface SignUpFormData {
   email: string;
   password: string;
+  organizationName: string;
+  address: string;
+  phoneNumber: string;
 }
 
 const OrgSignUpPage: React.FC = () => {
-  const [formData, setFormData] = useState<LoginFormData>({ email: '', password: '' });
+  const [formData, setFormData] = useState<SignUpFormData>({
+    email: '',
+    password: '',
+    organizationName: '',
+    address: '',
+    phoneNumber: ''
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value
     });
   };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     console.log('Form data submitted:', formData);
+    // You can add additional logic here to handle form submission
   };
 
   return (
-    <div>
+    <div className="relative bg-gray-100 min-h-screen">
       <Navbar />
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <form onSubmit={handleSubmit} className="w-full max-w-sm p-8 space-y-6 bg-white rounded shadow-md">
-        <div>
-          <h1 className="text-2xl font-bold text-center">Sign Up for New Organization</h1>
-        </div>
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">Organization Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            className="w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-            required
-          />
-        </div>
-        <button type="submit" className="w-full px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
-          Login
-        </button>
-        <div className="mt-4">
-          <p className="text-center mb-4">Already have an account?</p>
-          <Link to="/organization-login" className="w-full px-4 py-2 text-sm font-medium text-center text-white bg-blue-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
-          Log In
-          </Link>
-        </div>
-      </form>
-    </div>
+      <div className="flex items-center justify-center py-16">
+        {/* Add padding top to create space */}
+        <form onSubmit={handleSubmit} className="w-full px-8 py-8 bg-white rounded shadow-md">
+          <div>
+            <h1 className="text-2xl font-bold text-center">Sign Up for New Organization</h1>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                Organization Email:
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                Password:
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="organizationName" className="block text-sm font-medium text-gray-700">
+                Organization Name:
+              </label>
+              <input
+                type="text"
+                id="organizationName"
+                name="organizationName"
+                value={formData.organizationName}
+                onChange={handleChange}
+                className="w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="address" className="block text-sm font-medium text-gray-700">
+                Address:
+              </label>
+              <input
+                type="text"
+                id="address"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                className="w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">
+                Phone Number:
+              </label>
+              <input
+                type="tel"
+                id="phoneNumber"
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                className="w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                required
+              />
+            </div>
+          </div>
+          <button
+            type="submit"
+            className="w-full mt-4 px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+          >
+            Sign Up
+          </button>
+          <div className="mt-4">
+            <p className="mb-4">Already have an account?</p>
+            <Link
+              to="/organization-login"
+              className="w-full px-4 py-2 text-sm font-medium text-center text-white bg-blue-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+            >
+              Log In
+            </Link>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
