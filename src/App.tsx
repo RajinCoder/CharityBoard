@@ -5,8 +5,7 @@ import UserLoginPage from "./pages/User/UserLoginPage";
 import UserSignUpPage from "./pages/User/UserSignUpPage";
 import UserOrg from "./pages/UserOrg";
 import OrgLoginPage from "./pages/Organization/OrgLoginPage";
-import OrgSignUpPage from './pages/Organization/OrgSignUpPage';
-
+import OrgSignUpPage from "./pages/Organization/OrgSignUpPage";
 
 function App() {
   return (
@@ -14,7 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/user-login" element={<UserLoginPage />} />
-        <Route path="/user-signup" element={<UserSignUpPage />} /> 
+        <Route path="/user-signup" element={<UserSignUpPage />} />
         <Route path="/organization-login" element={<OrgLoginPage />} />
         <Route path="/organization-signup" element={<OrgSignUpPage />} />
         <Route path="/user-or-org" element={<UserOrg />} />
