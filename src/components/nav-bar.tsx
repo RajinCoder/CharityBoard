@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const Navbar = () => {
   return (
     <nav className="bg-blue-700 px-4 py-1 flex items-center justify-between fixed top-0 left-0 w-full h-[10%]">
@@ -48,9 +50,9 @@ const Navbar = () => {
         <button className="text-white mx-2 ring-1 ring-white rounded-md px-3 py-1 hover:bg-white hover:text-blue-500 transition-colors">
           Following
         </button>
-        <button className="text-white mx-2 ring-1 ring-white rounded-md px-3 py-1 hover:bg-white hover:text-blue-500 transition-colors">
+        <Link to="/user-or-org" className="text-white mx-2 ring-1 ring-white rounded-md px-3 py-1 hover:bg-white hover:text-blue-500 transition-colors">
           Login
-        </button>
+        </Link>
       </div>
     </nav>
   );

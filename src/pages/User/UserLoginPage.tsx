@@ -1,13 +1,12 @@
 import React, { useState, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 
-
 interface LoginFormData {
   email: string;
   password: string;
 }
 
-const LoginPage: React.FC = () => {
+const UserLoginPage: React.FC = () => {
   const [formData, setFormData] = useState<LoginFormData>({ email: '', password: '' });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,7 +25,7 @@ const LoginPage: React.FC = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <form onSubmit={handleSubmit} className="w-full max-w-sm p-8 space-y-6 bg-white rounded shadow-md">
         <div>
-          <h1 className="text-2xl font-bold text-center">Sign Up for New Users</h1>
+          <h1 className="text-2xl font-bold text-center">Login for Returning Users</h1>
         </div>
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email:</label>
@@ -56,9 +55,9 @@ const LoginPage: React.FC = () => {
           Login
         </button>
         <div className="mt-4">
-          <p className="text-center mb-4">Already have an account?</p>
-          <Link to="/login" className="w-full px-4 py-2 text-sm font-medium text-center text-white bg-blue-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
-          Log In
+          <p className="text-center mb-4">Don't have an account?</p>
+          <Link to="/user-signup" className="w-full px-4 py-2 text-sm font-medium text-center text-white bg-blue-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+            Sign Up!
           </Link>
         </div>
       </form>
@@ -66,4 +65,4 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+export default UserLoginPage;
