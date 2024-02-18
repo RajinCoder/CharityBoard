@@ -3,7 +3,7 @@ import { Listing } from "../components/Listing";
 import Navbar from "../components/nav-bar"; // Import the Navbar component using relative path
 import { useEffect } from "react";
 import { supabase } from "../config/supabaseClient";
-
+import { Filters } from "../components/Filters";
 interface Listing {
   listingId: number;
   created_at: string;
@@ -13,18 +13,14 @@ interface Listing {
   saved: boolean;
   tags: { needs: string[] };
 }
-
 const HomePage = () => {
   const [listings, setListings] = useState<Listing[]>([]);
-
   useEffect(() => {
     const getListing = async () => {
       const { data, error } = await supabase.from("ListingTable").select();
-
       if (error) {
         console.log(error);
       }
-
       if (data) {
         setListings(data);
         console.log(data);
@@ -32,10 +28,10 @@ const HomePage = () => {
     };
     getListing();
   }, []);
-
   return (
     <div className="h-100 p-10">
       <Navbar />
+      <Filters></Filters>
       {listings.map((listing, index) => (
         <Listing
           key={index}
@@ -50,5 +46,4 @@ const HomePage = () => {
     </div>
   );
 };
-
 export default HomePage;
