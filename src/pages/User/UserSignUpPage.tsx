@@ -1,5 +1,7 @@
 import React, { useState, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
+import Navbar from "../../components/nav-bar-login";
+
 interface LoginFormData {
   email: string;
   password: string;
@@ -19,6 +21,8 @@ const UserSignUpPage: React.FC = () => {
     console.log('Form data submitted:', formData);
   };
   return (
+    <div>
+      <Navbar />
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <form onSubmit={handleSubmit} className="w-full max-w-sm p-8 space-y-6 bg-white rounded shadow-md">
         <div>
@@ -56,6 +60,7 @@ const UserSignUpPage: React.FC = () => {
         </div>
       </form>
     </div>
+  </div>
   );
 };
 
