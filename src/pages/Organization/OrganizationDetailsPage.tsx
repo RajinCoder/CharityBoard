@@ -44,7 +44,7 @@ const OrganizationDetailsPage = () => {
         {commonInfo && (
           <div className="mb-10">
             <h1 className="font-bold text-7xl mb-4 mt-2 text-blue-800 shadow-lg p-4 rounded-lg bg-blue-100 border border-blue-200">
-                {commonInfo.name}
+              {commonInfo.name}
             </h1>
           </div>
         )}
