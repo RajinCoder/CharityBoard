@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../config/supabaseClient";
 import Navbar from "../components/nav-bar";
-import { Organization } from "../components/Organization";
+import { OrganizationListing } from "../components/Organization";
 
 interface OrganizationProps {
   orgID: string;
@@ -34,7 +34,7 @@ const FollowingPage = () => {
         <h1 className="text-4xl font-bold mb-8">Following</h1>
         <div className="grid grid-cols-4 gap-8">
           {organizations.map((organization) => (
-            <Organization
+            <OrganizationListing
               key={organization.orgID}
               orgID={organization.orgID}
               orgName={organization.orgName}

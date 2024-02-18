@@ -2,22 +2,18 @@ import React, { useState, FormEvent } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/nav-bar-login";
 import { supabase } from "../../config/supabaseClient";
-import { useNavigate } from "react-router-dom";
 
-interface LoginFormData {
+interface SignUpFormData {
   email: string;
   password: string;
 }
 
-/*
-  Needs to display if there is an error signing up, needs to clear the form after any sign up
-*/
 const UserSignUpPage: React.FC = () => {
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState<LoginFormData>({
+  const [formData, setFormData] = useState<SignUpFormData>({
     email: "",
     password: "",
   });
+  const [showVerificationPopup, setShowVerificationPopup] = useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -25,18 +21,29 @@ const UserSignUpPage: React.FC = () => {
       [e.target.name]: e.target.value,
     });
   };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const { data, error } = await supabase.auth.signUp(formData);
+
+    const { data, error } = await supabase.auth.signUp({
+      email: formData.email,
+      password: formData.password,
+    });
+
     if (error) {
       console.error("Error signing up: ", error);
+      return;
     }
 
     if (data) {
-      navigate("/");
+      setShowVerificationPopup(true);
+      setFormData({ // Clear the form after successful signup
+        email: "",
+        password: "",
+      });
     }
-    console.log("Form data submitted:", formData);
   };
+
   return (
     <div>
       <Navbar />
@@ -100,6 +107,23 @@ const UserSignUpPage: React.FC = () => {
           </div>
         </form>
       </div>
+      {showVerificationPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-8 rounded shadow-md">
+            <p className="text-lg font-semibold mb-4">Please verify your email! Then click sign up again.</p>
+            <button
+              className="bg-blue-500 text-white px-4 py-2 rounded-md"
+              onClick={
+                () => {
+                  setShowVerificationPopup(false)
+                }
+              }
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -13,6 +13,7 @@ interface Listing {
   saved: boolean;
   user_id: string;
   tags: { needs: string[] };
+  user_id: string;
 }
 const FavoritesPage = () => {
   const [listings, setListings] = useState<Listing[]>([]);

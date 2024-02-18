@@ -7,7 +7,7 @@ interface Props {
   address: string;
 }
 
-export const Organization = ({
+export const OrganizationListing = ({
   orgID,
   orgName,
   email,
