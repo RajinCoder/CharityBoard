@@ -1,17 +1,52 @@
-
-import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { supabase } from "../config/supabaseClient";
 
 const Navbar = () => {
   // State for managing dropdown menu visibility
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+  const [loggedIn, setLoggedIn] = useState(false);
 
   // Reference to the pin button
   const pinButtonRef = useRef<HTMLButtonElement>(null); // Specify the type here
 
   // Distance options
-  const distanceOptions = ["5 miles", "10 miles", "25 miles", "50 miles", "100+ miles"];
+  const distanceOptions = [
+    "5 miles",
+    "10 miles",
+    "25 miles",
+    "50 miles",
+    "100+ miles",
+  ];
+
+  const logOut = async () => {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      console.log("Error logging out");
+    } else {
+      setLoggedIn(false);
+    }
+  };
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.getUser();
+
+      if (error) {
+        console.log("You are signed out");
+      }
+      if (user) {
+        setLoggedIn(true);
+        console.log(user);
+      }
+    };
+    checkLoginStatus();
+  });
 
   // Function to toggle dropdown menu visibility
   const toggleDropdown = () => setIsDropdownVisible(!isDropdownVisible);
@@ -25,7 +60,8 @@ const Navbar = () => {
   // Calculate dropdown position
   useEffect(() => {
     if (pinButtonRef.current) {
-      const { top, left, height } = pinButtonRef.current.getBoundingClientRect();
+      const { top, left, height } =
+        pinButtonRef.current.getBoundingClientRect();
       setDropdownPosition({ top: top + height, left });
     }
   }, [isDropdownVisible]);
@@ -41,26 +77,49 @@ const Navbar = () => {
       <div className="flex items-center border-2 border-blue-500 bg-white rounded-md ml-4 flex-grow">
         {/* Magnifying Glass Icon Button */}
         <button className="p-2">
-          <svg className="w-6 h-6 text-blue-500" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+          <svg
+            className="w-6 h-6 text-blue-500"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
             <path d="M15.5 14.5L20 18"></path>
             <circle cx="9.5" cy="11.5" r="6"></circle>
           </svg>
         </button>
 
         {/* Input Field */}
-        <input className="p-2 flex-grow rounded-md" type="text" placeholder="Search for charities..." />
+        <input
+          className="p-2 flex-grow rounded-md"
+          type="text"
+          placeholder="Search for charities..."
+        />
 
         {/* Pin Icon Button with Toggle Dropdown */}
         <button className="p-2" onClick={toggleDropdown} ref={pinButtonRef}>
-          <img src="https://cdn-icons-png.freepik.com/512/7310/7310018.png" alt="Location" className="w-6 h-6" />
+          <img
+            src="https://cdn-icons-png.freepik.com/512/7310/7310018.png"
+            alt="Location"
+            className="w-6 h-6"
+          />
         </button>
 
         {/* Dropdown Menu with Distance Options */}
         {isDropdownVisible && (
-          <div className="absolute mt-2 left-0 bg-white shadow-lg rounded-md z-10" style={{ top: dropdownPosition.top, left: dropdownPosition.left }}>
+          <div
+            className="absolute mt-2 left-0 bg-white shadow-lg rounded-md z-10"
+            style={{ top: dropdownPosition.top, left: dropdownPosition.left }}
+          >
             <ul>
               {distanceOptions.map((distance) => (
-                <li key={distance} className="p-2 hover:bg-blue-500 hover:text-white cursor-pointer" onClick={() => handleDistanceClick(distance)}>
+                <li
+                  key={distance}
+                  className="p-2 hover:bg-blue-500 hover:text-white cursor-pointer"
+                  onClick={() => handleDistanceClick(distance)}
+                >
                   {distance}
                 </li>
               ))}
@@ -74,14 +133,24 @@ const Navbar = () => {
         <Link to="/favorites" className="text-white mx-2 ring-1 ring-white rounded-md px-3 py-1 hover:bg-white hover:text-blue-500 transition-colors">
           Favorites
         </Link>
-        <button className="text-white mx-2 ring-1 ring-white rounded-md px-3 py-1 hover:bg-white hover:text-blue-500 transition-colors">
-        </button>
         <Link to="/following" className="text-white mx-2 ring-1 ring-white rounded-md px-3 py-1 hover:bg-white hover:text-blue-500 transition-colors">
           Following
         </Link>
-        <Link to="/user-or-org" className="text-white mx-2 ring-1 ring-white rounded-md px-3 py-1 hover:bg-white hover:text-blue-500 transition-colors">
-          Login
-        </Link>
+        {!loggedIn ? (
+          <Link
+            to="/user-or-org"
+            className="text-white mx-2 ring-1 ring-white rounded-md px-3 py-1 hover:bg-white hover:text-blue-500 transition-colors"
+          >
+            Login
+          </Link>
+        ) : (
+          <button
+            onClick={logOut}
+            className="text-white mx-2 ring-1 ring-white rounded-md px-3 py-1 hover:bg-white hover:text-blue-500 transition-colors"
+          >
+            Log out
+          </button>
+        )}
       </div>
     </nav>
   );
