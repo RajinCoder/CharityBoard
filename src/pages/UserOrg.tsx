@@ -1,8 +1,11 @@
 import React from "react";
 import { Link } from 'react-router-dom';
+import Navbar from "../components/nav-bar-login";
 
 const UserOrg = () => {
   return (
+    <div>
+      <Navbar />
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
         <div className="text-center">
             <h1 className="text-2xl font-semibold mb-8">Choose appropriate login option</h1>
@@ -21,6 +24,7 @@ const UserOrg = () => {
                 </Link>
             </div>
         </div>
+    </div>
     </div>
   );
 };
