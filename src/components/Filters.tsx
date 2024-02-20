@@ -54,7 +54,7 @@ export function Filters() {
   }, [isOpen]); // This effect depends on the `isOpen` state
 
   return (
-    <div className="relative flex items-center space-x-2" ref={dropdownRef}>
+    <div className="relative  flex items-center space-x-2" ref={dropdownRef}>
       <button
         onClick={toggleDropdown}
         className="px-3 py-1 text-black bg-white border border-black rounded-md text-sm flex items-center justify-start mt-10 mb-5"
@@ -78,8 +78,12 @@ export function Filters() {
       {isOpen && (
         <div className="absolute left-0 w-48 bg-white border rounded-md shadow-lg z-10 top-[calc(110%-1.5rem)] -mt-">
           <div className="py-1">
-            {tags.map((need) => (
-              <Tags onClick={() => handleFilterSelect(need)} name={need} />
+            {tags.map((need, index) => (
+              <Tags
+                key={index}
+                onClick={() => handleFilterSelect(need)}
+                name={need}
+              />
             ))}
           </div>
         </div>

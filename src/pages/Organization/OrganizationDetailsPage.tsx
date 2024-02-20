@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../../components/nav-bar";
 import { supabase } from "../../config/supabaseClient";
@@ -85,16 +85,18 @@ const OrganizationDetailsPage = () => {
           </div>
         )}
         <div className="flex flex-wrap gap-4">
-          {listings.map((listing) => (
+          {listings.map((listing, index) => (
             <div key={listing.listingId} className=" p-4 flex flex-col">
               <Listing
-                orgName={listing.name}
-                orgNumber={listing.contact}
-                orgLoc={listing.address}
-                orgNeeds={listing.tags.needs}
-                time={listing.created_at}
-                uid={listing.listingId}
+                key={index}
+                name={listing.name}
+                contact={listing.contact}
+                address={listing.address}
+                tags={listing.tags}
+                created_at={listing.created_at}
+                listingId={listing.listingId}
                 user_id={listing.user_id}
+                saved={false}
               />
             </div>
           ))}
