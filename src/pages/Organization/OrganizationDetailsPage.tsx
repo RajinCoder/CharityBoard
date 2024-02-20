@@ -1,35 +1,15 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Navbar from "../../components/nav-bar";
 import { supabase } from "../../config/supabaseClient";
 import { Listing } from "../../components/Listing";
-
-interface Listing {
-  listingId: number;
-  created_at: string;
-  name: string;
-  address: string;
-  contact: string;
-  saved: boolean;
-  tags: { needs: string[] };
-  user_id: string;
-}
-
-interface OrganizationProps {
-  org_uuid: string;
-  orgName: string;
-  email: string;
-  address: string;
-  mission: string;
-}
+import { listing, orginization } from "../../types/types";
 
 const OrganizationDetailsPage = () => {
-  const { uid } = useParams();
-  const [listings, setListings] = useState<Listing[]>([]);
-  const [organization, setOrganization] = useState<OrganizationProps | null>(
-    null
-  );
-  const commonInfo = listings[0];
+  const location = useLocation();
+  const [listings, setListings] = useState<listing[]>([]);
+  const [organization, setOrganization] = useState<orginization | null>(null);
+  const org_uuid = location.state.owner_id;
 
   useEffect(() => {
     const fetchOrganization = async () => {
@@ -37,12 +17,14 @@ const OrganizationDetailsPage = () => {
         const { data, error } = await supabase
           .from("OrganizationTable")
           .select()
-          .eq("org_uuid", uid);
+          .eq("org_uuid", org_uuid)
+          .single();
+
         if (error) {
           throw error;
         }
-        if (data && data.length > 0) {
-          setOrganization(data[0]);
+        if (data) {
+          setOrganization(data);
         }
       } catch (error) {
         console.error("Error fetching organization:", error);
@@ -50,7 +32,7 @@ const OrganizationDetailsPage = () => {
     };
 
     fetchOrganization();
-  }, [uid]);
+  }, [org_uuid]);
 
   useEffect(() => {
     const fetchListings = async () => {
@@ -58,7 +40,7 @@ const OrganizationDetailsPage = () => {
         const { data, error } = await supabase
           .from("ListingTable")
           .select()
-          .eq("user_id", uid);
+          .eq("user_id", org_uuid);
         if (error) {
           throw error;
         }
@@ -71,7 +53,7 @@ const OrganizationDetailsPage = () => {
     };
 
     fetchListings();
-  }, [uid]);
+  }, [org_uuid]);
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -80,7 +62,7 @@ const OrganizationDetailsPage = () => {
         {organization && (
           <div className="mb-10">
             <h1 className="font-bold text-7xl mb-4 mt-2 text-blue-800 shadow-lg p-4 rounded-lg bg-blue-100 border border-blue-200">
-              {commonInfo.name}
+              {organization.orgname}
             </h1>
           </div>
         )}

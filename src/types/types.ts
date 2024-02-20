@@ -13,3 +13,12 @@ export interface listing {
     tags: { needs: string[] };
     user_id: string;
   }
+
+  export interface orginization {
+    org_uuid: string;
+    orgname: string;
+    contact: string;
+    address: string;
+    email: string;
+    missionStatement: string;
+  }
