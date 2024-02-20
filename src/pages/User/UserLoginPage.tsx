@@ -9,6 +9,10 @@ interface LoginFormData {
   password: string;
 }
 
+/**
+ * A user cannot be an organization
+ * @returns
+ */
 const UserLoginPage: React.FC = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState<LoginFormData>({
@@ -25,15 +29,27 @@ const UserLoginPage: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const { data, error } = await supabase.auth.signInWithPassword(formData);
-    if (error) {
-      console.error("Wrong login information: ", error);
-    }
+    const { data } = await supabase
+      .from("OrganizationTable")
+      .select()
+      .eq("email", formData.email)
+      .single();
 
     if (data) {
-      navigate("/");
+      alert("An Organization may not sign in as a user");
+      setFormData({
+        email: "",
+        password: "",
+      });
+    } else {
+      const { data, error } = await supabase.auth.signInWithPassword(formData);
+      if (error) {
+        alert("Wrong login information");
+        console.error("Wrong login information: ", error);
+      } else if (data) {
+        navigate("/");
+      }
     }
-    console.log("Form data submitted:", formData);
   };
 
   return (

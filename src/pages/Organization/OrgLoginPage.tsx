@@ -9,6 +9,10 @@ interface LoginFormData {
   password: string;
 }
 
+/**
+ * An orginization cannot be a user prior
+ * @returns
+ */
 const OrgLoginPage: React.FC = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState<LoginFormData>({
@@ -35,7 +39,12 @@ const OrgLoginPage: React.FC = () => {
       return;
     }
     if (data?.length === 0) {
+      alert("Not an Organization");
       console.error("Not an orginization", error);
+      setFormData({
+        email: "",
+        password: "",
+      });
       return;
     }
 
@@ -46,6 +55,7 @@ const OrgLoginPage: React.FC = () => {
       });
 
     if (loginError) {
+      alert("Not the correct login info");
       console.error("Not correct login info", loginError);
       return; // Handle the login error appropriately
     }
@@ -54,7 +64,6 @@ const OrgLoginPage: React.FC = () => {
       console.log("logged in successfully");
       navigate("/");
     }
-    console.log("Form data submitted:", formData);
   };
 
   return (

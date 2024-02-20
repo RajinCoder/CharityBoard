@@ -24,7 +24,7 @@ const Navbar = () => {
     const { error } = await supabase.auth.signOut();
 
     if (error) {
-      console.log("Error logging out");
+      throw new Error("Error logging out");
     } else {
       setLoggedIn(false);
     }
@@ -32,21 +32,19 @@ const Navbar = () => {
 
   useEffect(() => {
     const checkLoginStatus = async () => {
-      const {
-        data: { user },
-        error,
-      } = await supabase.auth.getUser();
+      const { data: session, error } = await supabase.auth.getSession();
 
       if (error) {
-        console.log("You are signed out");
+        throw new Error("Error checking login status");
       }
-      if (user) {
+      if (session.session == null) {
+        setLoggedIn(false);
+      } else {
         setLoggedIn(true);
-        console.log("logged in");
       }
     };
     checkLoginStatus();
-  });
+  }, []);
 
   // Function to toggle dropdown menu visibility
   const toggleDropdown = () => setIsDropdownVisible(!isDropdownVisible);
@@ -142,7 +140,7 @@ const Navbar = () => {
         >
           Following
         </Link>
-        {!loggedIn ? (
+        {loggedIn == false ? (
           <Link
             to="/user-or-org"
             className="text-white mx-2 ring-1 ring-white rounded-md px-3 py-1 hover:bg-white hover:text-blue-500 transition-colors"

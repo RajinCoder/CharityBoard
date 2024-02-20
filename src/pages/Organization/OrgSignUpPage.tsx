@@ -14,7 +14,8 @@ interface SignUpFormData {
 
 const OrgSignUpPage: React.FC = () => {
   const navigate = useNavigate();
-  const [showEmailValidationAlert, setShowEmailValidationAlert] = useState(false);
+  const [showEmailValidationAlert, setShowEmailValidationAlert] =
+    useState(false);
 
   const [formData, setFormData] = useState<SignUpFormData>({
     email: "",
@@ -40,7 +41,8 @@ const OrgSignUpPage: React.FC = () => {
     });
 
     if (error) {
-      console.error("Error with sign in information: ", error);
+      alert("Error Signing Up");
+      console.error("Error with sign up information: ", error);
     }
 
     if (data) {
@@ -50,6 +52,7 @@ const OrgSignUpPage: React.FC = () => {
     console.log("Form data submitted:", formData);
   };
 
+  // need to insert a row into the saved table
   const updateOrg = async (data: SignUpFormData) => {
     const { data: insertedData, error } = await supabase
       .from("OrganizationTable")
@@ -192,15 +195,17 @@ const OrgSignUpPage: React.FC = () => {
       {showEmailValidationAlert && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-8 rounded shadow-md">
-            <p className="text-lg font-semibold mb-4">Please validate your email! Then click sign up again.</p>
+            <p className="text-lg font-semibold mb-4">
+              Please validate your email! Then click sign up again.
+            </p>
             <button
-            className="bg-blue-500 text-white px-4 py-2 rounded-md"
-            onClick={() => {
-            setShowEmailValidationAlert(false);
+              className="bg-blue-500 text-white px-4 py-2 rounded-md"
+              onClick={() => {
+                setShowEmailValidationAlert(false);
               }}
             >
               OK
-          </button>
+            </button>
           </div>
         </div>
       )}

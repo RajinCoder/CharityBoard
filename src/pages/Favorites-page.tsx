@@ -37,13 +37,14 @@ const FavoritesPage = () => {
       {listings.map((listing, index) => (
         <Listing
           key={index}
-          orgName={listing.name}
-          orgNumber={listing.contact}
-          orgLoc={listing.address}
-          orgNeeds={listing.tags.needs}
-          time={listing.created_at}
-          uid={listing.listingId}
+          name={listing.name}
+          contact={listing.contact}
+          address={listing.address}
+          tags={listing.tags}
+          created_at={listing.created_at}
+          listingId={listing.listingId}
           user_id={listing.user_id}
+          saved={false}
         />
       ))}
     </div>
