@@ -10,6 +10,8 @@ import FavoritesPage from "./pages/Favorites-page.tsx";
 import FollowingPage from "./pages/FolllowingPage";
 import OrganizationDetailsPage from "./pages/Organization/OrganizationDetailsPage.tsx";
 import AddListing from "./pages/AddListing.tsx";
+import OrgSignUpAdditionalPage from "./pages/Organization/OrgSignUpAdditionalPage.tsx";
+import VerifyEmail from "./pages/VerifyEmail.tsx";
 
 function App() {
   return (
@@ -25,6 +27,11 @@ function App() {
         <Route path="/following" element={<FollowingPage />} />
         <Route path="/organization" element={<OrganizationDetailsPage />} />
         <Route path="/add-listing" element={<AddListing />} />
+        <Route
+          path="/org-extra-details"
+          element={<OrgSignUpAdditionalPage />}
+        />
+        <Route path="/verify-email" element={<VerifyEmail />} />
       </Routes>
     </div>
   );

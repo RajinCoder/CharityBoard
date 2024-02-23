@@ -130,20 +130,20 @@ const Navbar = () => {
       <div>
         <Link
           to="/favorites"
-          className="text-white mx-2 ring-1 ring-white rounded-md px-3 py-1 hover:bg-white hover:text-blue-500 transition-colors"
+          className="text-white mx-2 ring-1 ring-white rounded-md px-3 py-1.5 hover:bg-white hover:text-blue-500 transition-colors"
         >
           Favorites
         </Link>
         <Link
           to="/following"
-          className="text-white mx-2 ring-1 ring-white rounded-md px-3 py-1 hover:bg-white hover:text-blue-500 transition-colors"
+          className="text-white mx-2 ring-1 ring-white rounded-md px-3 py-1.5 hover:bg-white hover:text-blue-500 transition-colors"
         >
           Following
         </Link>
         {loggedIn == false ? (
           <Link
             to="/user-or-org"
-            className="text-white mx-2 ring-1 ring-white rounded-md px-3 py-1 hover:bg-white hover:text-blue-500 transition-colors"
+            className="text-white mx-2 ring-1 ring-white rounded-md px-3 py-1.5 hover:bg-white hover:text-blue-500 transition-colors"
           >
             Login
           </Link>
