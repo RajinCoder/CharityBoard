@@ -1,11 +1,11 @@
 // AddBtn.tsx
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const AddBtn = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const navigateToAddPage = () => {
-    navigate('/add-listing'); 
+    navigate("/add-listing");
   };
 
   return (
@@ -35,4 +35,3 @@ const AddBtn = () => {
 };
 
 export default AddBtn;
-

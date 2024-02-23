@@ -22,3 +22,16 @@ export interface listing {
     email: string;
     missionStatement: string;
   }
+
+  export interface SignUpFormData {
+    email: string;
+    password: string;
+  }
+
+  export interface OrgFormData {
+    email: string;
+    password: string;
+    organizationName: string;
+    address: string;
+    phoneNumber: string;
+  }
