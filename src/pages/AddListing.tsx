@@ -38,13 +38,17 @@ const AddListing = () => {
   };
 
   useEffect(() => {
+    /**
+     * Auto sets certain fields of posting from the database.
+     * @returns
+     */
     const setFields = async () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
 
       if (!user) {
-        console.error("User must be logged in to add a listing.");
+        alert("User must be logged in to add a listing.");
         return;
       } else {
         const { data: org, error } = await supabase
@@ -66,8 +70,13 @@ const AddListing = () => {
       }
     };
     setFields();
-  });
+  }, []);
 
+  /**
+   * Handles the submitting of the posting details.
+   * @param e the event of submitting the form
+   * @returns
+   */
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (selectedNeeds.length === 0) {

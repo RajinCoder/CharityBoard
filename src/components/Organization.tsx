@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 interface Props {
   uuid: string;
   orgName: string;
@@ -5,6 +7,11 @@ interface Props {
   address: string;
 }
 
+/**
+ * Creates an organization card for following.
+ * @param param0 the details of the organization
+ * @returns
+ */
 export const OrganizationListing = ({
   uuid,
   orgName,
@@ -18,17 +25,16 @@ export const OrganizationListing = ({
         <div className="mb-2 text-black flex">
           <p className="font-medium pr-2">Email:</p> <p>{email}</p>
         </div>
-        <div className="mb-6 text-black">
+        <div className="mb-6 text-black flex">
           <p className="font-medium pr-2">Address:</p> <p>{address}</p>
         </div>
-        <button
-          onClick={() => {
-            window.location.href = `/organization/${uuid}`;
-          }}
+        <Link
+          to="/organization"
+          state={{ owner_id: uuid }}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           Learn more about {orgName}
-        </button>
+        </Link>
       </div>
     </div>
   );

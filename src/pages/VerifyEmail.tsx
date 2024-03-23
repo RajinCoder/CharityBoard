@@ -3,38 +3,57 @@ import { supabase } from "../config/supabaseClient";
 import { useNavigate, useLocation } from "react-router-dom";
 import Navbar from "../components/nav-bar-login";
 
+/**
+ * Ensures the user that signs up verifies email before continuing.
+ * @returns a page that asks for verification
+ */
 const VerifyEmail = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  /**
+   * Checks for verification every 5 seconds.
+   */
   useEffect(() => {
+    /**
+     * Checks for verification by attempting to sign in with credentials.
+     */
     const checkVerification = async () => {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: location.state.org_email,
         password: location.state.org_password,
       });
+
       if (data) {
-        console.log("data", data);
+        console.log("Success");
       }
       if (error) {
-        console.log("Error", error);
+        console.log("Not Verified");
+        return;
       }
 
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      console.log(location.state.org_email);
+
       if (user) {
         updateSaved(user.id);
-        navigate(location.state.user_or_not ? "/" : "/org-extra-details", {
-          state: {
-            org_email: location.state.org_email,
-            org_password: location.state.org_password,
-            org_uuid: user.id,
-          },
-        });
+        updateFollowed(user.id);
+        if (location.state.user_or_not == true) {
+          updateUser(user.id, user.email);
+          navigate("/");
+        } else {
+          // not working when verifying in browser
+          navigate("/org-extra-details", {
+            state: {
+              org_email: location.state.org_email,
+              org_password: location.state.org_password, // should not be passing the password
+              org_uuid: user.id,
+            },
+          });
+        }
       } else {
-        console.log("Not working");
+        console.log("No User");
       }
     };
 
@@ -44,6 +63,10 @@ const VerifyEmail = () => {
     };
   });
 
+  /**
+   * Creates a new entry in the saved table.
+   * @param userId the userId of the newly verified user
+   */
   const updateSaved = async (userId: string) => {
     const { data, error } = await supabase.from("savedtable").insert({
       user_id: userId,
@@ -51,11 +74,52 @@ const VerifyEmail = () => {
     });
 
     if (error) {
-      console.log("error", error);
+      console.log("Error inserting data into saved table.");
     }
 
     if (data) {
-      console.log(data);
+      console.log("Inserted data into saved table.");
+    }
+  };
+
+  /**
+   * Creates a new entry in the followed table.
+   * @param userId the userId of the newly verified user
+   */
+  const updateFollowed = async (userId: string) => {
+    const { data, error } = await supabase.from("followingtable").insert({
+      user_id: userId,
+      list_of_followings: [],
+    });
+
+    if (error) {
+      console.log("Error inserting data into following table.");
+    }
+
+    if (data) {
+      console.log("Inserted data into following table.");
+    }
+  };
+
+  /**
+   * If the created is a user and not an org insert into table.
+   * @param userId the uuid of the newly created
+   * @param email the email of the newly created
+   */
+  const updateUser = async (userId: string, email: string | undefined) => {
+    console.log(userId);
+    console.log(email);
+    const { data, error } = await supabase.from("UserTable").insert({
+      user_id: userId,
+      email: email,
+    });
+
+    if (error) {
+      console.log("Error inserting data into user table.");
+    }
+
+    if (data) {
+      console.log("Inserted data into user table.");
     }
   };
 

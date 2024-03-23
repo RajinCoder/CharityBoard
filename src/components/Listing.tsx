@@ -3,6 +3,11 @@ import Tags from "./Tags";
 import { Link } from "react-router-dom"; // Import the Link component
 import { listing } from "../types/types";
 
+/**
+ * Creates a listing with a list of details.
+ * @param param0 the details of the listing
+ * @returns
+ */
 export const Listing = ({
   listingId,
   created_at,

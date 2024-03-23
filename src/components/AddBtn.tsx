@@ -1,9 +1,15 @@
-// AddBtn.tsx
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Creates an add button.
+ * @returns
+ */
 const AddBtn = () => {
   const navigate = useNavigate();
 
+  /**
+   * Redirects to a page to add a listing.
+   */
   const navigateToAddPage = () => {
     navigate("/add-listing");
   };

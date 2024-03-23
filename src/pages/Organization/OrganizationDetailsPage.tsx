@@ -1,10 +1,15 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import Navbar from "../../components/nav-bar";
+import Navbar from "../../components/nav-bar-login";
 import { supabase } from "../../config/supabaseClient";
 import { Listing } from "../../components/Listing";
 import { listing, orginization } from "../../types/types";
+import FollowingBtn from "../../components/FollowingBtn";
 
+/**
+ * Renders an orginization's page.
+ * @returns
+ */
 const OrganizationDetailsPage = () => {
   const location = useLocation();
   const [listings, setListings] = useState<listing[]>([]);
@@ -12,6 +17,9 @@ const OrganizationDetailsPage = () => {
   const org_uuid = location.state.owner_id;
 
   useEffect(() => {
+    /**
+     * Fetches the data of the organization clicked on.
+     */
     const fetchOrganization = async () => {
       try {
         const { data, error } = await supabase
@@ -35,6 +43,9 @@ const OrganizationDetailsPage = () => {
   }, [org_uuid]);
 
   useEffect(() => {
+    /**
+     * Fetches the listings of an organization.
+     */
     const fetchListings = async () => {
       try {
         const { data, error } = await supabase
@@ -56,31 +67,36 @@ const OrganizationDetailsPage = () => {
   }, [org_uuid]);
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-white">
       <Navbar />
       <div className="pt-28 mx-20">
         {organization && (
-          <div className="mb-10">
-            <h1 className="font-bold text-7xl mb-4 mt-2 text-blue-800 shadow-lg p-4 rounded-lg bg-blue-100 border border-blue-200">
-              {organization.orgname}
-            </h1>
+          <div className="mb-2 shadow-lg p-4 rounded-lg bg-black-300 border border-blue-700">
+            <div className="flex justify-between">
+              <h1 className="text-7xl mb-4 mt-2 text-gray-800">
+                {organization.orgname}
+              </h1>
+              <FollowingBtn org_uuid={organization.org_uuid} />
+            </div>
+            <h3>
+              Mission Statement: "Helping the world feel better by doing our
+              part!"
+            </h3>
           </div>
         )}
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-4 shadow-lg p-4 rounded-lg bg-black-300 border border-blue-700">
           {listings.map((listing, index) => (
-            <div key={listing.listingId} className=" p-4 flex flex-col">
-              <Listing
-                key={index}
-                name={listing.name}
-                contact={listing.contact}
-                address={listing.address}
-                tags={listing.tags}
-                created_at={listing.created_at}
-                listingId={listing.listingId}
-                user_id={listing.user_id}
-                saved={false}
-              />
-            </div>
+            <Listing
+              key={index}
+              name={listing.name}
+              contact={listing.contact}
+              address={listing.address}
+              tags={listing.tags}
+              created_at={listing.created_at}
+              listingId={listing.listingId}
+              user_id={listing.user_id}
+              saved={false}
+            />
           ))}
         </div>
       </div>

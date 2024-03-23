@@ -3,18 +3,32 @@ import { useState, FormEvent } from "react";
 import { supabase } from "../config/supabaseClient";
 import { SignUpFormData } from "../types/types";
 import { useNavigate } from "react-router-dom";
+import Error from "./Error";
 
 interface Props {
   userOrOrg: boolean;
   route: string;
 }
+
+/**
+ * Page for signing up for Charity Connect.
+ * @param param0 whether the user is an orginization or not and the resulting page to redirect to based on that
+ * @returns
+ */
 const SignUp = ({ userOrOrg, route }: Props) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState<SignUpFormData>({
     email: "",
     password: "",
   });
+  const [error, setError] = useState("");
+  const [showError, setShowError] = useState(false);
 
+  /**
+   * Signs the user up in the database.
+   * @param e event of submitting the form
+   * @returns
+   */
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -23,12 +37,11 @@ const SignUp = ({ userOrOrg, route }: Props) => {
       password: formData.password,
     });
     if (error) {
-      alert(`${error.message}`);
-      console.error("Error signing up: ", error);
+      setError(error.message);
+      setShowError(true);
       return;
     }
 
-    // Create a new entry in the saved table
     if (data) {
       navigate("/verify-email", {
         state: {
@@ -45,6 +58,10 @@ const SignUp = ({ userOrOrg, route }: Props) => {
     }
   };
 
+  /**
+   * Changes the state variable everytime the form fields are changed.
+   * @param e form change event
+   */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
@@ -113,6 +130,9 @@ const SignUp = ({ userOrOrg, route }: Props) => {
             </Link>
           </div>
         </form>
+      </div>
+      <div className="fixed bottom-1 right-1">
+        {showError && <Error errorMessage={error} />}
       </div>
     </>
   );

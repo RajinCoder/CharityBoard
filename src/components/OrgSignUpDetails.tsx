@@ -15,6 +15,10 @@ const OrgSignUpDetails = () => {
     phoneNumber: "",
   });
 
+  /**
+   * Changes the state variable everytime the form fields are changed.
+   * @param e form change event
+   */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
@@ -23,6 +27,10 @@ const OrgSignUpDetails = () => {
     });
   };
 
+  /**
+   * Updates the org data with fields.
+   * @param e submitting event
+   */
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     updateOrg(formData);
@@ -31,6 +39,11 @@ const OrgSignUpDetails = () => {
   };
 
   // need to insert a row into the saved table
+  /**
+   * Creates a new entry in the organization table.
+   * @param data the organizations form data
+   * @returns
+   */
   const updateOrg = async (data: OrgFormData) => {
     const { data: insertedData, error } = await supabase
       .from("OrganizationTable")

@@ -2,6 +2,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import Tags from "./Tags";
 
+/**
+ * Renders a list of tags as filters.
+ * @returns
+ */
 export function Filters() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
@@ -18,12 +22,21 @@ export function Filters() {
   const toggleDropdown = () => setIsOpen(!isOpen);
   const dropdownRef = useRef<HTMLDivElement>(null); // Specify the element type
 
+  /**
+   * Adds a filter from the list of tags.
+   * @param filter the specific tag wanting to be added
+   */
   const handleFilterSelect = (filter: string) => {
     if (!selectedFilters.includes(filter)) {
       setSelectedFilters((prevFilters) => [...prevFilters, filter]);
     }
   };
 
+  /**
+   * Removes the filter from the list of tags.
+   * @param filter the specific tag
+   * @param event the event of being clicked on
+   */
   const removeFilter = (filter: string, event: React.MouseEvent) => {
     // Specify the event type
     event.stopPropagation(); // Prevent the dropdown from toggling
@@ -33,6 +46,10 @@ export function Filters() {
   };
 
   useEffect(() => {
+    /**
+     *
+     * @param event
+     */
     const handleClickOutside = (event: MouseEvent) => {
       // Specify the event type
       if (

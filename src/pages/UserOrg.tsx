@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/nav-bar-login";
 
+/**
+ * Gives the user two options to sign in with, user or org.
+ * @returns a page with user or login sign in buttons
+ */
 const UserOrg = () => {
   return (
     <div>

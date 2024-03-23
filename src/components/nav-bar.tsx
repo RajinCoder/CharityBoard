@@ -20,6 +20,9 @@ const Navbar = () => {
     "100+ miles",
   ];
 
+  /**
+   * Logs the user out.
+   */
   const logOut = async () => {
     const { error } = await supabase.auth.signOut();
 
@@ -31,6 +34,9 @@ const Navbar = () => {
   };
 
   useEffect(() => {
+    /**
+     * Gets the session data of the user to see if they're logged in.
+     */
     const checkLoginStatus = async () => {
       const { data: session, error } = await supabase.auth.getSession();
 

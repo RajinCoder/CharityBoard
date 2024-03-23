@@ -5,18 +5,50 @@ import { useEffect } from "react";
 import { Filters } from "../components/Filters";
 import AddBtn from "../components/AddBtn";
 import { listing } from "../types/types";
+import { supabase } from "../config/supabaseClient";
 
+/**
+ * Displays the landing page seen first with listings and a navbar.
+ * @returns the home page
+ */
 const HomePage = () => {
   const [listings, setListings] = useState<listing[]>([]);
+  const [showAdd, setShowAdd] = useState(false);
 
   /**
-   * Fetches the listings json from our backend server in order to display it to the user
+   * Fetches the listings json from our backend server in order to display it to the user.
    */
   useEffect(() => {
     fetch("/api/get-listings")
       .then((response) => response.json())
       .then((data) => setListings(data))
       .catch((error) => console.log("Not able to get listings", error));
+  }, []);
+
+  useEffect(() => {
+    /**
+     * Checks if the user is an organization to allow them to add a listing.
+     * @returns
+     */
+    const displayAdd = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (user) {
+        const { data } = await supabase
+          .from("OrganizationTable")
+          .select()
+          .eq("org_uuid", user.id)
+          .single();
+
+        if (data) {
+          setShowAdd(true);
+        }
+      }
+    };
+
+    displayAdd();
   }, []);
 
   return (
@@ -48,7 +80,7 @@ const HomePage = () => {
           </div>
         )}
       </div>
-      <AddBtn />
+      {showAdd && <AddBtn />}
     </>
   );
 };

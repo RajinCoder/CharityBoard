@@ -2,6 +2,12 @@ interface Props {
   name: string;
   onClick?: () => void;
 }
+
+/**
+ * Displays the tag of @param0 name.
+ * @param param0 the name of the tag
+ * @returns a tag with the name
+ */
 const Tags = ({ name, onClick }: Props) => {
   return (
     <button

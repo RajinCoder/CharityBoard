@@ -6,11 +6,21 @@ import starYellow from "../assets/starYellow.svg";
 interface Props {
   listingId: number;
 }
+
+/**
+ * Stores a certain listing as a favorite for a certain user.
+ * Invariant: Organizations should be able to favorite their listings
+ * @param param0 the listingId of the listing the button is apart of
+ * @returns
+ */
 const SaveBtn = ({ listingId }: Props) => {
   const [isSaved, setIsSaved] = useState(false);
   const [user_id, setUserId] = useState<string | null>(null);
 
-  // This function toggles the saved status of a listing
+  /**
+   * Toggles the saved status of a listing.
+   * @returns
+   */
   const toggleSave = async () => {
     try {
       const { data, error } = await supabase
@@ -19,23 +29,11 @@ const SaveBtn = ({ listingId }: Props) => {
         .eq("user_id", user_id)
         .single();
 
-      //Eventually should be done in the creation of an account
-      if (error && error.message.includes("The result contains 0 rows")) {
-        // Handle no existing row for the user by creating one
-        const { error: creationError } = await supabase
-          .from("savedtable")
-          .insert([{ user_id, list_of_listings: [listingId] }]);
-
-        if (creationError) throw creationError;
-
-        setIsSaved(true); // Since we just added the listing, set saved to true
-        return;
-      } else if (error) {
+      if (error) {
         throw error;
       }
 
-      const isCurrentlySaved = data?.list_of_listings.includes(listingId);
-      const updatedList = isCurrentlySaved
+      const updatedList = isSaved
         ? data.list_of_listings.filter((id: number) => id !== listingId)
         : [...data.list_of_listings, listingId];
 
@@ -47,15 +45,17 @@ const SaveBtn = ({ listingId }: Props) => {
       if (updateError) throw updateError;
 
       // Toggle the visual state without waiting for another query
-      setIsSaved(!isCurrentlySaved);
+      setIsSaved(!isSaved);
     } catch (error) {
       console.error("Error toggling saved status", error);
       alert("Could not update the saved status. Please sign in.");
     }
   };
 
-  // Effect to initialize the saved state
   useEffect(() => {
+    /**
+     * Fetches the saved status of the listing.
+     */
     const fetchSavedStatus = async () => {
       const {
         data: { user },
