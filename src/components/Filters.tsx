@@ -2,22 +2,26 @@
 import React, { useState, useEffect, useRef } from "react";
 import Tags from "./Tags";
 
+interface FiltersProps {
+  selectedFilters: string[];
+  onFilterChange: (filters: string[]) => void;
+}
+
 /**
  * Renders a list of tags as filters.
  * @returns
  */
-export function Filters() {
+export function Filters({ selectedFilters, onFilterChange }: FiltersProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
   const tags = [
-    "Clothing",
-    "Volunteers",
-    "Blankets",
-    "Pillows",
-    "Toiletries",
-    "Food",
-    "Water",
+    "CLOTHING",
+    "VOLUNTEERS",
+    "BLANKETS",
+    "PILLOWS",
+    "TOILETRIES",
+    "FOOD",
+    "WATER",
   ];
   const toggleDropdown = () => setIsOpen(!isOpen);
   const dropdownRef = useRef<HTMLDivElement>(null); // Specify the element type
@@ -28,7 +32,7 @@ export function Filters() {
    */
   const handleFilterSelect = (filter: string) => {
     if (!selectedFilters.includes(filter)) {
-      setSelectedFilters((prevFilters) => [...prevFilters, filter]);
+      onFilterChange([...selectedFilters, filter]);
     }
   };
 
@@ -40,9 +44,8 @@ export function Filters() {
   const removeFilter = (filter: string, event: React.MouseEvent) => {
     // Specify the event type
     event.stopPropagation(); // Prevent the dropdown from toggling
-    setSelectedFilters((prevFilters) =>
-      prevFilters.filter((f) => f !== filter)
-    );
+    const newFilters = selectedFilters.filter((f) => f !== filter);
+    onFilterChange(newFilters);
   };
 
   useEffect(() => {

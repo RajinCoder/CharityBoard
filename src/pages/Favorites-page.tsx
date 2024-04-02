@@ -14,6 +14,8 @@ const FavoritesPage = () => {
   const [listings, setListings] = useState<listing[]>([]);
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [filtered, setFiltered] = useState<listing[]>([]);
 
   useEffect(() => {
     /**
@@ -55,31 +57,44 @@ const FavoritesPage = () => {
     getFavListing();
   }, [navigate]);
 
+  useEffect(() => {
+    const filteredListings = listings.filter((listing) => {
+      const searchTermMatch = listing.name
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const tagsMatch = selectedFilters.every((filter) =>
+        listing.tags.needs.includes(filter)
+      );
+      return searchTermMatch && tagsMatch;
+    });
+
+    setFiltered(filteredListings);
+  }, [listings, searchTerm, selectedFilters]);
+
   return (
     <div className="px-10 py-20">
       <Navbar
         onSearchTermChange={(searchTerm: string) => setSearchTerm(searchTerm)}
       />
-      <Filters></Filters>
+      <Filters
+        selectedFilters={selectedFilters}
+        onFilterChange={setSelectedFilters}
+      />
       {listings.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {listings
-            .filter((listing) =>
-              listing.name.toLowerCase().includes(searchTerm.toLowerCase())
-            )
-            .map((listing, index) => (
-              <Listing
-                key={index}
-                name={listing.name}
-                contact={listing.contact}
-                address={listing.address}
-                tags={listing.tags}
-                created_at={listing.created_at}
-                listingId={listing.listingId}
-                user_id={listing.user_id}
-                saved={false}
-              />
-            ))}
+          {filtered.map((listing, index) => (
+            <Listing
+              key={index}
+              name={listing.name}
+              contact={listing.contact}
+              address={listing.address}
+              tags={listing.tags}
+              created_at={listing.created_at}
+              listingId={listing.listingId}
+              user_id={listing.user_id}
+              saved={false}
+            />
+          ))}
         </div>
       ) : (
         <div className="text-center p-5 mt-5 bg-gray-100 rounded-lg shadow-md">
