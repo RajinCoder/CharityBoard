@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 const FavoritesPage = () => {
   const [listings, setListings] = useState<listing[]>([]);
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     /**
@@ -56,23 +57,29 @@ const FavoritesPage = () => {
 
   return (
     <div className="px-10 py-20">
-      <Navbar />
+      <Navbar
+        onSearchTermChange={(searchTerm: string) => setSearchTerm(searchTerm)}
+      />
       <Filters></Filters>
       {listings.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {listings.map((listing, index) => (
-            <Listing
-              key={index}
-              name={listing.name}
-              contact={listing.contact}
-              address={listing.address}
-              tags={listing.tags}
-              created_at={listing.created_at}
-              listingId={listing.listingId}
-              user_id={listing.user_id}
-              saved={false}
-            />
-          ))}
+          {listings
+            .filter((listing) =>
+              listing.name.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+            .map((listing, index) => (
+              <Listing
+                key={index}
+                name={listing.name}
+                contact={listing.contact}
+                address={listing.address}
+                tags={listing.tags}
+                created_at={listing.created_at}
+                listingId={listing.listingId}
+                user_id={listing.user_id}
+                saved={false}
+              />
+            ))}
         </div>
       ) : (
         <div className="text-center p-5 mt-5 bg-gray-100 rounded-lg shadow-md">

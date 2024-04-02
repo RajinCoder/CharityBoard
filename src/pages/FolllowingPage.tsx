@@ -12,6 +12,7 @@ import { orginization } from "../types/types";
 const FollowingPage = () => {
   const [organizations, setOrganizations] = useState<orginization[]>([]);
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     /**
@@ -57,20 +58,26 @@ const FollowingPage = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar
+        onSearchTermChange={(searchTerm: string) => setSearchTerm(searchTerm)}
+      />
       <div className="px-10 py-28">
         <h1 className="text-4xl font-bold mb-8">Following</h1>
         {organizations.length > 0 ? (
           <div className="grid grid-cols-4 gap-8">
-            {organizations.map((organization) => (
-              <OrganizationListing
-                key={organization.org_uuid}
-                uuid={organization.org_uuid}
-                orgName={organization.orgname}
-                email={organization.email}
-                address={organization.address}
-              />
-            ))}
+            {organizations
+              .filter((listing) =>
+                listing.orgname.toLowerCase().includes(searchTerm.toLowerCase())
+              )
+              .map((organization) => (
+                <OrganizationListing
+                  key={organization.org_uuid}
+                  uuid={organization.org_uuid}
+                  orgName={organization.orgname}
+                  email={organization.email}
+                  address={organization.address}
+                />
+              ))}
           </div>
         ) : (
           <div className="text-center p-5 mt-5 bg-gray-100 rounded-lg shadow-md">
