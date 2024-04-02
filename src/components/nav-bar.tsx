@@ -2,7 +2,10 @@ import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../config/supabaseClient";
 
-const Navbar = () => {
+interface Props {
+  onSearchTermChange: (searchTerm: string) => void;
+}
+const Navbar = ({ onSearchTermChange }: Props) => {
   // State for managing dropdown menu visibility
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
@@ -21,6 +24,21 @@ const Navbar = () => {
   ];
 
   /**
+   * Returns the term being typed.
+   * @param event typing in the search bar
+   */
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onSearchTermChange(event.target.value);
+  };
+
+  /**
+   * Refreshes the screen
+   */
+  const handleRefresh = () => {
+    window.location.reload();
+  };
+
+  /**
    * Logs the user out.
    */
   const logOut = async () => {
@@ -30,6 +48,7 @@ const Navbar = () => {
       throw new Error("Error logging out");
     } else {
       setLoggedIn(false);
+      handleRefresh();
     }
   };
 
@@ -100,6 +119,7 @@ const Navbar = () => {
           className="p-2 flex-grow rounded-md"
           type="text"
           placeholder="Search for charities..."
+          onChange={handleSearchChange}
         />
 
         {/* Pin Icon Button with Toggle Dropdown */}

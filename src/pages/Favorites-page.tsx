@@ -13,6 +13,9 @@ import { useNavigate } from "react-router-dom";
 const FavoritesPage = () => {
   const [listings, setListings] = useState<listing[]>([]);
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [filtered, setFiltered] = useState<listing[]>([]);
 
   useEffect(() => {
     /**
@@ -54,13 +57,32 @@ const FavoritesPage = () => {
     getFavListing();
   }, [navigate]);
 
+  useEffect(() => {
+    const filteredListings = listings.filter((listing) => {
+      const searchTermMatch = listing.name
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const tagsMatch = selectedFilters.every((filter) =>
+        listing.tags.needs.includes(filter)
+      );
+      return searchTermMatch && tagsMatch;
+    });
+
+    setFiltered(filteredListings);
+  }, [listings, searchTerm, selectedFilters]);
+
   return (
     <div className="px-10 py-20">
-      <Navbar />
-      <Filters></Filters>
+      <Navbar
+        onSearchTermChange={(searchTerm: string) => setSearchTerm(searchTerm)}
+      />
+      <Filters
+        selectedFilters={selectedFilters}
+        onFilterChange={setSelectedFilters}
+      />
       {listings.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {listings.map((listing, index) => (
+          {filtered.map((listing, index) => (
             <Listing
               key={index}
               name={listing.name}
